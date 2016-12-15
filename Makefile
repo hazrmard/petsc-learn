@@ -15,8 +15,18 @@ ex%: ex%.o chkopts utils
 	-$(CC) $(CFLAGS) -o $@.out $< utils.o ${PETSC_LIB}
 	rm $<
 
+pinverse: pinverse.o chkopts utils
+	-$(CC) $(CFLAGS) -o $@.out $< utils.o ${PETSC_LIB}
+	rm $<
+
+tinverse: utils
+	-$(CC) $(CFLAGS) -o tinverse.out tinverse.c utils.o -lm
+
 utils: 
 	-$(CC) $(CFLAGS) -c -o utils.o utils.c
 
-all: $(SRC)
+genmat: utils
+	-$(CC) $(CFLAGS) -o genmat.out genmat.c utils.o
+
+all: $(SRC) genmat
 
